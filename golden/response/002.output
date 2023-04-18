@@ -1,0 +1,15 @@
+Response
+  { statusLine =
+      StatusLine
+        { versionMajor = 1
+        , versionMinor = 1
+        , statusCode = 400
+        , statusReason = "Bad Request"
+        }
+  , headers =
+      fromListN
+        2
+        [ Header { name = "Content-Type" , value = "application/json" }
+        , Header { name = "Content-Length" , value = "100" }
+        ]
+  }

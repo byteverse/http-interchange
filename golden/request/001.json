@@ -1,0 +1,9 @@
+{
+    "requestLine": {
+        "method": "PUT",
+        "path": "/foo/bar?baz=true",
+        "versionMajor": 1,
+        "versionMinor": 1
+    },
+    "headers": []
+}

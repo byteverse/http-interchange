@@ -1,0 +1,2 @@
+PUT /foo/bar?baz=true HTTP/1.1
+
