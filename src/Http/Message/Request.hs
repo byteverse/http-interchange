@@ -1,30 +1,29 @@
 {-# language LambdaCase #-}
+{-# language MagicHash #-}
 
 module Http.Message.Request
   ( Request(..)
   , RequestLine(..)
+    -- * Encode Request
   , builder
   , toChunks
+  , toChunksOnto
+    -- * Encode Request with Body
+  , bodiedToChunks
   ) where
 
-import Control.Monad (when)
-import Data.Bytes.Chunks (Chunks)
-import Data.Bytes (Bytes)
-import Data.Bytes.Parser (Parser)
-import Data.Bytes.Types (Bytes(Bytes))
-import Data.Primitive (SmallArray,ByteArray(ByteArray))
-import Data.Word (Word8,Word16)
-import Data.Text (Text)
 import Data.Bytes.Builder (Builder)
+import Data.Bytes.Chunks (Chunks)
+import Data.Primitive (SmallArray)
+import Data.Text (Text)
+import Data.Word (Word8)
+import GHC.Exts (Ptr(Ptr))
+import Http.Bodied (Bodied(..))
 import Http.Header (Header)
 
 import qualified Data.Bytes.Text.Utf8 as Utf8
 import qualified Data.Bytes.Builder as Builder
-import qualified Data.Bytes as Bytes
-import qualified Data.Text.Internal as Text
-import qualified Data.Text.Array
-import qualified Data.Bytes.Parser as Parser
-import qualified Data.Bytes.Parser.Latin as Latin
+import qualified Data.Bytes.Chunks as Chunks
 import qualified Http.Header as Header
 
 -- | The response status line and the response headers.
@@ -61,6 +60,9 @@ builderRequestLine RequestLine{method,path,versionMajor,versionMinor} =
 toChunks :: Request -> Chunks
 toChunks = Builder.run 256 . builder
 
+toChunksOnto :: Request -> Chunks -> Chunks
+toChunksOnto r ch = Builder.runOnto 256 (builder r) ch
+
 builder :: Request -> Builder
 builder Request{requestLine,headers} =
   builderRequestLine requestLine
@@ -68,3 +70,19 @@ builder Request{requestLine,headers} =
   Header.builderSmallArray headers
   <>
   Builder.ascii2 '\r' '\n'
+
+-- | This adds the Content-Length header. It must not already
+-- be present.
+bodiedToChunks :: Bodied Request -> Chunks
+bodiedToChunks Bodied{metadata=Request{requestLine,headers},body} =
+  Builder.runOnto 256
+    ( builderRequestLine requestLine
+      <>
+      Header.builderSmallArray headers
+      <>
+      Builder.cstring (Ptr "Content-Length: "#)
+      <>
+      Builder.word64Dec (fromIntegral (Chunks.length body))
+      <>
+      Builder.ascii4 '\r' '\n' '\r' '\n'
+    ) body

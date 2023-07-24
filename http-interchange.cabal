@@ -15,6 +15,7 @@ library
   exposed-modules:
     Http.Message.Request
     Http.Message.Response
+    Http.Bodied
     Http.Header
   build-depends:
     , base >=4.16.4.0
