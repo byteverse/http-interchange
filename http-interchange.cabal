@@ -6,6 +6,7 @@ license-file: LICENSE
 author: Andrew Martin
 maintainer: andrew.thaddeus@gmail.com
 synopsis: Types and serialization for HTTP
+description: Types and serialization for HTTP. Very minimal.
 copyright: 2023 Andrew Martin
 category: Data
 build-type: Simple
