@@ -29,7 +29,7 @@ library
   default-language: GHC2021
 
 test-suite test
-  ghc-options: -Wall -O1
+  ghc-options: -Wall
   default-language: GHC2021
   type: exitcode-stdio-1.0
   hs-source-dirs: test
