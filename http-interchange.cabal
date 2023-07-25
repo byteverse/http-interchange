@@ -19,8 +19,8 @@ library
     Http.Header
   build-depends:
     , base >=4.16.4.0
-    , bytesmith >=0.3.8
-    , byteslice >=0.2.6
+    , bytesmith >=0.3.10
+    , byteslice >=0.2.11
     , primitive >=0.7.4
     , text >=2.0
     , bytebuild >=0.3.10

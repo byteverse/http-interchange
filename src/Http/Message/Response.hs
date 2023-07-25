@@ -13,11 +13,8 @@ import Data.Bytes.Types (Bytes(Bytes))
 import Data.Primitive (SmallArray,ByteArray(ByteArray))
 import Data.Word (Word8,Word16)
 import Data.Text (Text)
-import Data.Bytes.Builder (Builder)
 import Http.Header (Header)
 
-import qualified Data.Bytes.Builder as Builder
-import qualified Data.Bytes as Bytes
 import qualified Data.Text.Internal as Text
 import qualified Data.Text.Array
 import qualified Data.Bytes.Parser as Parser
