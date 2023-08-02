@@ -26,12 +26,13 @@ import qualified Data.Bytes.Builder as Builder
 import qualified Data.Bytes.Chunks as Chunks
 import qualified Http.Header as Header
 
--- | The response status line and the response headers.
+-- | The request line and the request headers.
 data Request = Request
   { requestLine :: !RequestLine
   , headers :: !(SmallArray Header)
   } deriving (Show)
 
+-- | An HTTP request line
 data RequestLine = RequestLine
   { method :: {-# UNPACK #-} !Text
   , path :: {-# UNPACK #-} !Text
