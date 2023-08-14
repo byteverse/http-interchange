@@ -8,6 +8,7 @@ module Http.Types
   , Response(..)
   , StatusLine(..)
     -- * Header
+  , Headers
   , Header(..)
     -- * Bodied
   , Bodied(..)
@@ -16,4 +17,5 @@ module Http.Types
 import Http.Request (Request(..),RequestLine(..))
 import Http.Response (Response(..),StatusLine(..))
 import Http.Header (Header(..))
+import Http.Headers (Headers)
 import Http.Bodied (Bodied(..))
