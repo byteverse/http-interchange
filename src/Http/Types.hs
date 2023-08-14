@@ -10,6 +10,7 @@ module Http.Types
     -- * Header
   , Headers
   , Header(..)
+  , LookupException(..)
     -- * Bodied
   , Bodied(..)
   ) where
@@ -17,5 +18,5 @@ module Http.Types
 import Http.Request (Request(..),RequestLine(..))
 import Http.Response (Response(..),StatusLine(..))
 import Http.Header (Header(..))
-import Http.Headers (Headers)
+import Http.Headers (Headers,LookupException(..))
 import Http.Bodied (Bodied(..))

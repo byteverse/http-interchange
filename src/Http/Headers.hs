@@ -1,6 +1,7 @@
 {-# language DuplicateRecordFields #-}
 {-# language DerivingStrategies #-}
 {-# language GeneralizedNewtypeDeriving #-}
+{-# language OverloadedStrings #-}
 
 -- TODO: Right now, this uses a crummy implementation. Instead, we
 -- should hash all the keys and search the hashes first to speed
@@ -8,14 +9,19 @@
 module Http.Headers
   ( -- * Types
     Headers
+  , LookupException(..)
     -- * Construct
   , fromArray
     -- * Expose
   , toArray
     -- * Lookup
   , lookup
-  , lookupUnique
+  , lookupFirst
   , lookupAll
+    -- * Specialized Lookup
+  , lookupContentType
+  , lookupContentLength
+  , lookupTransferEncoding
   ) where
 
 import Prelude hiding (lookup)
@@ -34,9 +40,22 @@ import qualified Http.Header
 newtype Headers = Headers (SmallArray Header)
   deriving newtype (Show)
 
+-- | Many headers cannot appear more than once. This is part of
+-- the return type for 'lookup', and it helps us track whether the
+-- lookup failure was the result of something that might be expected
+-- (the header was @Missing@) or something that is definitely a mistake
+-- (the header was is duplicated).
+data LookupException
+  = Duplicate
+  | Missing
+
+-- | Convert array of headers to a 'Headers' collection that supports
+-- efficient lookup.
 fromArray :: SmallArray Header -> Headers
 fromArray = Headers
 
+-- | Recover the original headers from from the 'Headers' collection.
+-- This is @O(1)@ and is most commonly used to fold over the headers.
 toArray :: Headers -> SmallArray Header
 toArray (Headers xs) = xs
 
@@ -44,30 +63,29 @@ toArray (Headers xs) = xs
 -- returns both the original header name (may differs in case from the
 -- header name searched for) and the header value. Only returns the first
 -- occurrence of the header.
-lookup ::
+lookupFirst ::
      Text -- header name
   -> Headers
   -> Maybe Header
-lookup needle (Headers hdrs) =
+lookupFirst needle (Headers hdrs) =
   List.find (\Header{name} -> caseInsensitiveEq needle name) hdrs
 
 -- | Lookup a header that should not appear more than one time and verify
 -- that it did not occur more than once. If it appears more than once
--- (or less than once), then returns the number of times that it appeared,
--- wrapped in @Left@.
-lookupUnique ::
+-- (or less than once), returns a 'LookupException'.
+lookup ::
      Text -- header name
   -> Headers
-  -> Either Int Header
-lookupUnique needle hdrs@(Headers xs) = case lookup needle hdrs of
-  Nothing -> Left 0
+  -> Either LookupException Header
+lookup needle hdrs@(Headers xs) = case lookupFirst needle hdrs of
+  Nothing -> Left Missing
   Just hdr ->
     let count = foldl'
           (\acc Header{name} -> if caseInsensitiveEq needle name
             then acc + 1
             else acc
-          ) 0 xs
-     in if count > 1 then Left count else Right hdr
+          ) (0 :: Int) xs
+     in if count > 1 then Left Duplicate else Right hdr
 
 -- | Lookup a header that may appear more than once. Some headers
 -- (e.g. @Set-Cookie@, @X-Forwarded-For@) are allowed to appear multiple
@@ -83,3 +101,12 @@ lookupAll needle (Headers hdrs) =
 -- TODO: Make this not allocate
 caseInsensitiveEq :: Text -> Text -> Bool
 caseInsensitiveEq a b = T.toLower a == T.toLower b
+
+lookupTransferEncoding :: Headers -> Either LookupException Header
+lookupTransferEncoding = lookup "transfer-encoding"
+
+lookupContentType :: Headers -> Either LookupException Header
+lookupContentType = lookup "content-type"
+
+lookupContentLength :: Headers -> Either LookupException Header
+lookupContentLength = lookup "content-length"
