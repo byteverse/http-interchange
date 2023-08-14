@@ -15,17 +15,19 @@ import Data.Primitive (SmallArray,ByteArray(ByteArray))
 import Data.Word (Word8,Word16)
 import Data.Text (Text)
 import Http.Header (Header)
+import Http.Headers (Headers)
 
 import qualified Data.Text.Internal as Text
 import qualified Data.Text.Array
 import qualified Data.Bytes.Parser as Parser
 import qualified Data.Bytes.Parser.Latin as Latin
 import qualified Http.Header as Header
+import qualified Http.Headers as Headers
 
 -- | The response status line and the response headers.
 data Response = Response
   { statusLine :: !StatusLine
-  , headers :: !(SmallArray Header)
+  , headers :: !Headers
   } deriving (Show)
 
 data StatusLine = StatusLine
@@ -47,7 +49,8 @@ parserResponse ::
   -> Parser () s Response
 parserResponse !n = do
   statusLine <- parserStatusLine
-  headers <- Header.parserSmallArray n
+  headers0 <- Header.parserSmallArray n
+  let !headers = Headers.fromArray headers0
   pure Response{statusLine,headers}
 
 -- Consumes the trailing CRLF
