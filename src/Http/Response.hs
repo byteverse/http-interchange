@@ -1,7 +1,7 @@
 {-# language DuplicateRecordFields #-}
 {-# language LambdaCase #-}
 
-module Http.Message.Response
+module Http.Response
   ( Response(..)
   , StatusLine(..)
   , decode

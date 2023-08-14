@@ -6,25 +6,24 @@ module Main
   ) where
 
 import Control.Monad (when)
+import Data.Aeson (FromJSON)
+import GHC.Generics (Generic)
+import Http.Types (Request,Header)
 import System.FilePath (takeBaseName, replaceExtension)
 import Test.Tasty (defaultMain, TestTree, testGroup)
 import Test.Tasty.Golden (goldenVsString, findByExtension)
 import Text.Show.Pretty (ppShow)
-import Http.Header (Header)
-import Data.Aeson (FromJSON)
-import GHC.Generics (Generic)
-import Http.Message.Request (Request)
 
+import qualified Data.Aeson as Aeson
 import qualified Data.ByteString.Lazy.Char8 as LBC8
-import qualified Data.Bytes.Chunks as Chunks
 import qualified Data.Bytes as Bytes
+import qualified Data.Bytes.Chunks as Chunks
+import qualified Data.List as List
 import qualified Data.Primitive as PM
 import qualified GHC.Exts as Exts
-import qualified Http.Message.Request as Request
-import qualified Http.Message.Response as Response
 import qualified Http.Header
-import qualified Data.Aeson as Aeson
-import qualified Data.List as List
+import qualified Http.Request as Request
+import qualified Http.Response as Response
 
 main :: IO ()
 main = defaultMain =<< goldenTests

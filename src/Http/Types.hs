@@ -13,7 +13,7 @@ module Http.Types
   , Bodied(..)
   ) where
 
-import Http.Message.Request (Request(..),RequestLine(..))
-import Http.Message.Response (Response(..),StatusLine(..))
+import Http.Request (Request(..),RequestLine(..))
+import Http.Response (Response(..),StatusLine(..))
 import Http.Header (Header(..))
 import Http.Bodied (Bodied(..))

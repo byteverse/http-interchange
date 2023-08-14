@@ -1,6 +1,6 @@
 cabal-version: 3.0
 name: http-interchange
-version: 0.1.0.0
+version: 0.2.0.0
 license: BSD-3-Clause
 license-file: LICENSE
 author: Andrew Martin
@@ -15,8 +15,8 @@ extra-doc-files: CHANGELOG.md
 library
   ghc-options: -Wall -O2
   exposed-modules:
-    Http.Message.Request
-    Http.Message.Response
+    Http.Request
+    Http.Response
     Http.Bodied
     Http.Header
     Http.Types

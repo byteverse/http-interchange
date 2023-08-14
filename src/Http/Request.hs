@@ -2,7 +2,7 @@
 {-# language LambdaCase #-}
 {-# language MagicHash #-}
 
-module Http.Message.Request
+module Http.Request
   ( Request(..)
   , RequestLine(..)
     -- * Encode Request
