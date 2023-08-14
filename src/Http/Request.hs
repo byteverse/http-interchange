@@ -21,16 +21,18 @@ import Data.Word (Word8)
 import GHC.Exts (Ptr(Ptr))
 import Http.Bodied (Bodied(..))
 import Http.Header (Header)
+import Http.Headers (Headers)
 
 import qualified Data.Bytes.Text.Utf8 as Utf8
 import qualified Data.Bytes.Builder as Builder
 import qualified Data.Bytes.Chunks as Chunks
 import qualified Http.Header as Header
+import qualified Http.Headers as Headers
 
 -- | The request line and the request headers.
 data Request = Request
   { requestLine :: !RequestLine
-  , headers :: !(SmallArray Header)
+  , headers :: !Headers
   } deriving (Show)
 
 -- | An HTTP request line
@@ -69,9 +71,11 @@ builder :: Request -> Builder
 builder Request{requestLine,headers} =
   builderRequestLine requestLine
   <>
-  Header.builderSmallArray headers
+  Header.builderSmallArray headersArray
   <>
   Builder.ascii2 '\r' '\n'
+  where
+  headersArray = Headers.toArray headers
 
 -- | This adds the Content-Length header. It must not already
 -- be present.
@@ -80,7 +84,7 @@ bodiedToChunks Bodied{metadata=Request{requestLine,headers},body} =
   Builder.runOnto 256
     ( builderRequestLine requestLine
       <>
-      Header.builderSmallArray headers
+      Header.builderSmallArray headersArray
       <>
       Builder.cstring (Ptr "Content-Length: "#)
       <>
@@ -88,3 +92,5 @@ bodiedToChunks Bodied{metadata=Request{requestLine,headers},body} =
       <>
       Builder.ascii4 '\r' '\n' '\r' '\n'
     ) body
+  where
+  headersArray = Headers.toArray headers

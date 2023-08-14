@@ -12,6 +12,7 @@ import Http.Types (Request,Header)
 import System.FilePath (takeBaseName, replaceExtension)
 import Test.Tasty (defaultMain, TestTree, testGroup)
 import Test.Tasty.Golden (goldenVsString, findByExtension)
+import Http.Headers (Headers)
 import Text.Show.Pretty (ppShow)
 
 import qualified Data.Aeson as Aeson
@@ -22,6 +23,7 @@ import qualified Data.List as List
 import qualified Data.Primitive as PM
 import qualified GHC.Exts as Exts
 import qualified Http.Header
+import qualified Http.Headers as Headers
 import qualified Http.Request as Request
 import qualified Http.Response as Response
 
@@ -35,6 +37,9 @@ deriving stock instance Generic Request.Request
 deriving anyclass instance FromJSON Header
 deriving anyclass instance FromJSON Request.RequestLine
 deriving anyclass instance FromJSON Request.Request
+
+instance FromJSON Headers where
+  parseJSON = fmap Headers.fromArray . Aeson.parseJSON
 
 goldenTests :: IO TestTree
 goldenTests = do
