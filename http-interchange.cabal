@@ -6,7 +6,10 @@ license-file: LICENSE
 author: Andrew Martin
 maintainer: andrew.thaddeus@gmail.com
 synopsis: Types and serialization for HTTP
-description: Types and serialization for HTTP. Very minimal.
+description:
+  Types and serialization for HTTP. This includes things like request
+  line, status line, and headers. There is also a collection type
+  for headers that supports fast, case-insensitive lookup.
 copyright: 2023 Andrew Martin
 category: Data
 build-type: Simple

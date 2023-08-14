@@ -37,6 +37,12 @@ import qualified Data.Text as T
 import qualified Http.Header
 
 -- | Collection of HTTP headers. Supports case-insensitive lookup.
+-- This is intended to be used for small collections of headers.
+-- Expect degraded performance if this is used for collections of
+-- more than 128 headers.
+--
+-- This preserves the original order of the headers and the original
+-- case of the header names.
 newtype Headers = Headers (SmallArray Header)
   deriving newtype (Show)
 
@@ -44,7 +50,7 @@ newtype Headers = Headers (SmallArray Header)
 -- the return type for 'lookup', and it helps us track whether the
 -- lookup failure was the result of something that might be expected
 -- (the header was @Missing@) or something that is definitely a mistake
--- (the header was is duplicated).
+-- (the header was duplicated).
 data LookupException
   = Duplicate
   | Missing
