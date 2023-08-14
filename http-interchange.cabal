@@ -19,6 +19,7 @@ library
     Http.Message.Response
     Http.Bodied
     Http.Header
+    Http.Types
   build-depends:
     , base >=4.16.4.0 && <5
     , bytesmith >=0.3.10

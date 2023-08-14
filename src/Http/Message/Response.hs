@@ -1,3 +1,4 @@
+{-# language DuplicateRecordFields #-}
 {-# language LambdaCase #-}
 
 module Http.Message.Response
