@@ -10,4 +10,4 @@ data Bodied a = Bodied
     -- ^ The request or response.
   , body :: !Chunks
     -- ^ The body.
-  }
+  } deriving (Show,Eq)

@@ -39,12 +39,10 @@ data Request = Request
 data RequestLine = RequestLine
   { method :: {-# UNPACK #-} !Text
   , path :: {-# UNPACK #-} !Text
-  , versionMajor :: !Word8
-  , versionMinor :: !Word8
   } deriving (Show)
 
 builderRequestLine :: RequestLine -> Builder
-builderRequestLine RequestLine{method,path,versionMajor,versionMinor} =
+builderRequestLine RequestLine{method,path} =
   Builder.copy (Utf8.fromText method)
   <>
   Builder.ascii ' '
@@ -53,13 +51,7 @@ builderRequestLine RequestLine{method,path,versionMajor,versionMinor} =
   <>
   Builder.ascii6 ' ' 'H' 'T' 'T' 'P' '/'
   <>
-  Builder.word8Dec versionMajor
-  <>
-  Builder.ascii '.'
-  <>
-  Builder.word8Dec versionMinor
-  <>
-  Builder.ascii2 '\r' '\n'
+  Builder.ascii5 '1' '.' '1' '\r' '\n'
 
 toChunks :: Request -> Chunks
 toChunks = Builder.run 256 . builder

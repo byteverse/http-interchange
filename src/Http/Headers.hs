@@ -12,6 +12,7 @@ module Http.Headers
   , LookupException(..)
     -- * Construct
   , fromArray
+  , fromList
     -- * Expose
   , toArray
     -- * Lookup
@@ -35,6 +36,7 @@ import qualified Data.List as List
 import qualified Data.Primitive.Contiguous as C
 import qualified Data.Text as T
 import qualified Http.Header
+import qualified GHC.Exts as Exts
 
 -- | Collection of HTTP headers. Supports case-insensitive lookup.
 -- This is intended to be used for small collections of headers.
@@ -59,6 +61,11 @@ data LookupException
 -- efficient lookup.
 fromArray :: SmallArray Header -> Headers
 fromArray = Headers
+
+-- | Convert list of headers to a 'Headers' collection that supports
+-- efficient lookup.
+fromList :: [Header] -> Headers
+fromList = Headers . Exts.fromList
 
 -- | Recover the original headers from from the 'Headers' collection.
 -- This is @O(1)@ and is most commonly used to fold over the headers.
