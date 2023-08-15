@@ -1,6 +1,6 @@
 # Revision history for http-interchange
 
-## 0.3.0.0 -- 2023-??-??
+## 0.3.0.0 -- 2023-08-15
 
 * Add `Http.Headers.fromList`. In examples, this makes it easier
   to create HTTP requests.
