@@ -31,9 +31,7 @@ data Response = Response
   } deriving (Show)
 
 data StatusLine = StatusLine
-  { versionMajor :: !Word8
-  , versionMinor :: !Word8
-  , statusCode :: !Word16
+  { statusCode :: !Word16
   , statusReason :: {-# UNPACK #-} !Text
   } deriving (Show)
 
@@ -58,8 +56,10 @@ parserStatusLine :: Parser () s StatusLine
 parserStatusLine = do
   Latin.char5 () 'H' 'T' 'T' 'P' '/'
   versionMajor <- Latin.decWord8 ()
+  when (versionMajor /= 1) (Parser.fail ())
   Latin.char () '.'
   versionMinor <- Latin.decWord8 ()
+  when (versionMinor /= 1) (Parser.fail ())
   Latin.char () ' '
   statusCode <- Latin.decWord16 ()
   when (statusCode >= 1000) (Parser.fail ())
@@ -70,7 +70,7 @@ parserStatusLine = do
     ||
     (c == 0x09)
   Latin.char2 () '\r' '\n'
-  pure StatusLine{versionMajor,versionMinor,statusCode,statusReason=unsafeBytesToText statusReason}
+  pure StatusLine{statusCode,statusReason=unsafeBytesToText statusReason}
 
 unsafeBytesToText :: Bytes -> Text
 {-# inline unsafeBytesToText #-}

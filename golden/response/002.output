@@ -1,11 +1,6 @@
 Response
   { statusLine =
-      StatusLine
-        { versionMajor = 1
-        , versionMinor = 1
-        , statusCode = 400
-        , statusReason = "Bad Request"
-        }
+      StatusLine { statusCode = 400 , statusReason = "Bad Request" }
   , headers =
       fromListN
         2

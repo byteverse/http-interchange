@@ -1,11 +1,6 @@
 Response
   { statusLine =
-      StatusLine
-        { versionMajor = 1
-        , versionMinor = 1
-        , statusCode = 200
-        , statusReason = "OK"
-        }
+      StatusLine { statusCode = 200 , statusReason = "OK" }
   , headers =
       fromListN
         3
