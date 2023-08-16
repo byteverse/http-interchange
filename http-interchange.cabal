@@ -31,7 +31,7 @@ library
     , primitive >=0.7.4
     , text >=2.0
     , bytebuild >=0.3.10
-    , contiguous >=0.6.4
+    , contiguous >=0.6.3
   hs-source-dirs: src
   default-language: GHC2021
 
