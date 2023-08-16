@@ -13,6 +13,9 @@ module Http.Headers
     -- * Construct
   , fromArray
   , fromList
+    -- * Modify
+  , cons
+  , snoc
     -- * Expose
   , toArray
     -- * Lookup
@@ -23,20 +26,29 @@ module Http.Headers
   , lookupContentType
   , lookupContentLength
   , lookupTransferEncoding
+  , lookupHost
+  , lookupAccept
+  , lookupDate
+    -- * Specialized Snoc
+  , snocContentLength
+    -- * Specialized Absence
+  , lacksContentLengthAndTransferEncoding
   ) where
 
 import Prelude hiding (lookup)
 
-import Data.Text (Text)
-import Data.Primitive (SmallArray)
-import Http.Header (Header(Header))
 import Data.Foldable (foldl')
+import Data.Maybe (isNothing)
+import Data.Primitive (SmallArray)
+import Data.Text (Text)
+import Http.Header (Header(Header))
 
 import qualified Data.List as List
+import qualified Data.Primitive as PM
 import qualified Data.Primitive.Contiguous as C
 import qualified Data.Text as T
-import qualified Http.Header
 import qualified GHC.Exts as Exts
+import qualified Http.Header
 
 -- | Collection of HTTP headers. Supports case-insensitive lookup.
 -- This is intended to be used for small collections of headers.
@@ -46,7 +58,7 @@ import qualified GHC.Exts as Exts
 -- This preserves the original order of the headers and the original
 -- case of the header names.
 newtype Headers = Headers (SmallArray Header)
-  deriving newtype (Show)
+  deriving newtype (Show,Semigroup,Monoid)
 
 -- | Many headers cannot appear more than once. This is part of
 -- the return type for 'lookup', and it helps us track whether the
@@ -61,6 +73,14 @@ data LookupException
 -- efficient lookup.
 fromArray :: SmallArray Header -> Headers
 fromArray = Headers
+
+-- | Add a header to the beginning of the headers.
+cons :: Header -> Headers -> Headers
+cons hdr (Headers hdrs) = Headers (C.insertAt hdrs 0 hdr)
+
+-- | Add a header to the beginning of the headers.
+snoc :: Headers -> Header -> Headers
+snoc (Headers hdrs) hdr = Headers (C.insertAt hdrs (PM.sizeofSmallArray hdrs) hdr)
 
 -- | Convert list of headers to a 'Headers' collection that supports
 -- efficient lookup.
@@ -123,3 +143,23 @@ lookupContentType = lookup "content-type"
 
 lookupContentLength :: Headers -> Either LookupException Header
 lookupContentLength = lookup "content-length"
+
+lookupHost :: Headers -> Either LookupException Header
+lookupHost = lookup "host"
+
+lookupAccept :: Headers -> Either LookupException Header
+lookupAccept = lookup "accept"
+
+lookupDate :: Headers -> Either LookupException Header
+lookupDate = lookup "date"
+
+snocContentLength :: Headers -> Text -> Headers
+snocContentLength hdrs val = snoc hdrs (Header "Content-Length" val)
+
+-- | Returns @True@ if both the @Content-Length@ and @Transfer-Encoding@
+-- headers are missing.
+lacksContentLengthAndTransferEncoding :: Headers -> Bool
+lacksContentLengthAndTransferEncoding hdrs =
+  isNothing (lookupFirst "content-length" hdrs)
+  &&
+  isNothing (lookupFirst "transfer-encoding" hdrs)
