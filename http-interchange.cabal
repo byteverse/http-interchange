@@ -43,7 +43,7 @@ test-suite test
   main-is: Main.hs
   build-depends:
     , aeson >=2.1
-    , base >=4.16.4.0
+    , base >=4.16.3.0
     , http-interchange
     , tasty >=1.4.3
     , tasty-golden >=2.3.5
