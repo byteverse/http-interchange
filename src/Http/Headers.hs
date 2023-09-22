@@ -23,6 +23,7 @@ module Http.Headers
   , lookupFirst
   , lookupAll
     -- * Specialized Lookup
+  , lookupLocation
   , lookupContentType
   , lookupContentLength
   , lookupTransferEncoding
@@ -152,6 +153,9 @@ lookupAccept = lookup "accept"
 
 lookupDate :: Headers -> Either LookupException Header
 lookupDate = lookup "date"
+
+lookupLocation :: Headers -> Either LookupException Header
+lookupLocation = lookup "location"
 
 snocContentLength :: Headers -> Text -> Headers
 snocContentLength hdrs val = snoc hdrs (Header "Content-Length" val)
