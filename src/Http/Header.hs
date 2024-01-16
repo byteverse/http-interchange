@@ -9,12 +9,14 @@ module Http.Header
   , builderSmallArray
   ) where
 
+import Control.Monad (when)
 import Data.Bytes (Bytes)
 import Data.Bytes.Builder (Builder)
 import Data.Bytes.Parser (Parser)
 import Data.Bytes.Types (Bytes (Bytes))
 import Data.Primitive (ByteArray (ByteArray), SmallArray, SmallMutableArray)
 import Data.Text (Text)
+import Data.Word (Word16, Word8)
 
 import Data.Bytes qualified as Bytes
 import Data.Bytes.Builder qualified as Builder
@@ -33,7 +35,7 @@ data Header = Header
   { name :: {-# UNPACK #-} !Text
   , value :: {-# UNPACK #-} !Text
   }
-  deriving (Eq, Show)
+  deriving (Show)
 
 uninitializedHeader :: Header
 {-# NOINLINE uninitializedHeader #-}
