@@ -2,12 +2,10 @@ Response
   { statusLine =
       StatusLine { statusCode = 200 , statusReason = "OK" }
   , headers =
-      fromListN
-        3
-        [ Header
-            { name = "Date" , value = "Tue, 18 Apr 2023 16:05:21 GMT" }
-        , Header
-            { name = "Content-Type" , value = "text/html; charset=utf-8" }
-        , Header { name = "Transfer-Encoding" , value = "chunked" }
-        ]
+      [ Header
+          { name = "Date" , value = "Tue, 18 Apr 2023 16:05:21 GMT" }
+      , Header
+          { name = "Content-Type" , value = "text/html; charset=utf-8" }
+      , Header { name = "Transfer-Encoding" , value = "chunked" }
+      ]
   }
