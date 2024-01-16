@@ -1,5 +1,6 @@
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DerivingStrategies #-}
+{-# OPTIONS_GHC -Wno-orphans #-}
 
 module Main
   ( main
@@ -30,10 +31,6 @@ import Http.Response qualified as Response
 main :: IO ()
 main = defaultMain =<< goldenTests
 
--- --> These lines report the warning "orphan instance":
--- HLS says suggested fix is either:
--- 1) Move the instance declaration to the module of the class or of the type, or
--- 2) Wrap the type with a newtype and declare the instance on the new type.
 deriving stock instance Generic Header
 deriving stock instance Generic Request.RequestLine
 deriving stock instance Generic Request.Request
@@ -44,8 +41,6 @@ deriving anyclass instance FromJSON Request.Request
 
 instance FromJSON Headers where
   parseJSON = fmap Headers.fromArray . Aeson.parseJSON
-
--- <--
 
 goldenTests :: IO TestTree
 goldenTests = do
