@@ -1,5 +1,9 @@
 # Revision history for http-interchange
 
+## 0.3.2.0 -- 2024-01-16
+
+* Add `Eq` and `Show` instances to all data types.
+
 ## 0.3.1.0 -- 2023-08-16
 
 * Add these to `Http.Headers`: cons, snoc, lookupHost, lookupAccept,
