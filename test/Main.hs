@@ -1,5 +1,6 @@
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DerivingStrategies #-}
+{-# OPTIONS_GHC -Wno-orphans #-}
 
 module Main
   ( main

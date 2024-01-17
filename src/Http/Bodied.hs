@@ -11,4 +11,4 @@ data Bodied a = Bodied
   , body :: !Chunks
   -- ^ The body.
   }
-  deriving (Show, Eq)
+  deriving (Eq, Show)

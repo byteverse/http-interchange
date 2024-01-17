@@ -67,7 +67,7 @@ This preserves the original order of the headers and the original
 case of the header names.
 -}
 newtype Headers = Headers (SmallArray Header)
-  deriving newtype (Show, Semigroup, Monoid)
+  deriving newtype (Eq, Show, Semigroup, Monoid)
 
 {- | Many headers cannot appear more than once. This is part of
 the return type for 'lookup', and it helps us track whether the
@@ -78,6 +78,7 @@ lookup failure was the result of something that might be expected
 data LookupException
   = Duplicate
   | Missing
+  deriving (Eq, Show)
 
 {- | Convert array of headers to a 'Headers' collection that supports
 efficient lookup.
