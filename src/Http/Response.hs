@@ -1,5 +1,4 @@
 {-# LANGUAGE DuplicateRecordFields #-}
-{-# LANGUAGE LambdaCase #-}
 
 module Http.Response
   ( Response (..)
@@ -11,10 +10,9 @@ import Control.Monad (when)
 import Data.Bytes (Bytes)
 import Data.Bytes.Parser (Parser)
 import Data.Bytes.Types (Bytes (Bytes))
-import Data.Primitive (ByteArray (ByteArray), SmallArray)
+import Data.Primitive (ByteArray (ByteArray))
 import Data.Text (Text)
-import Data.Word (Word16, Word8)
-import Http.Header (Header)
+import Data.Word (Word16)
 import Http.Headers (Headers)
 
 import Data.Bytes.Parser qualified as Parser
@@ -29,13 +27,13 @@ data Response = Response
   { statusLine :: !StatusLine
   , headers :: !Headers
   }
-  deriving (Show)
+  deriving (Eq, Show)
 
 data StatusLine = StatusLine
   { statusCode :: !Word16
   , statusReason :: {-# UNPACK #-} !Text
   }
-  deriving (Show)
+  deriving (Eq, Show)
 
 {- | Decode the response status line and the response headers. Fails if
 any extraneous input is present after the double CRLF sequence that

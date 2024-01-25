@@ -1,5 +1,4 @@
 {-# LANGUAGE DuplicateRecordFields #-}
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE MagicHash #-}
 
 module Http.Request
@@ -17,12 +16,9 @@ module Http.Request
 
 import Data.Bytes.Builder (Builder)
 import Data.Bytes.Chunks (Chunks)
-import Data.Primitive (SmallArray)
 import Data.Text (Text)
-import Data.Word (Word8)
 import GHC.Exts (Ptr (Ptr))
 import Http.Bodied (Bodied (..))
-import Http.Header (Header)
 import Http.Headers (Headers)
 
 import Data.Bytes.Builder qualified as Builder
@@ -36,14 +32,14 @@ data Request = Request
   { requestLine :: !RequestLine
   , headers :: !Headers
   }
-  deriving (Show)
+  deriving (Eq, Show)
 
 -- | An HTTP request line
 data RequestLine = RequestLine
   { method :: {-# UNPACK #-} !Text
   , path :: {-# UNPACK #-} !Text
   }
-  deriving (Show)
+  deriving (Eq, Show)
 
 builderRequestLine :: RequestLine -> Builder
 builderRequestLine RequestLine {method, path} =
@@ -57,7 +53,7 @@ toChunks :: Request -> Chunks
 toChunks = Builder.run 256 . builder
 
 toChunksOnto :: Request -> Chunks -> Chunks
-toChunksOnto r ch = Builder.runOnto 256 (builder r) ch
+toChunksOnto r = Builder.runOnto 256 (builder r)
 
 builder :: Request -> Builder
 builder Request {requestLine, headers} =
