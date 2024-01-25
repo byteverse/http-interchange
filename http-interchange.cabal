@@ -1,6 +1,6 @@
 cabal-version:   3.0
 name:            http-interchange
-version:         0.3.2.0
+version:         0.3.2.1
 license:         BSD-3-Clause
 license-file:    LICENSE
 author:          Andrew Martin
@@ -14,7 +14,18 @@ description:
 copyright:       2023 Andrew Martin
 category:        Data
 build-type:      Simple
-extra-doc-files: CHANGELOG.md
+extra-doc-files:
+  CHANGELOG.md
+  README.md
+extra-source-files:
+  golden/request/*.json
+  golden/request/*.txt
+  golden/request/*.input
+  golden/request/*.output
+  golden/response/*.json
+  golden/response/*.txt
+  golden/response/*.input
+  golden/response/*.output
 
 library
   ghc-options:      -Wall -O2
