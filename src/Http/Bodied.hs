@@ -1,5 +1,5 @@
 module Http.Bodied
-  ( Bodied(..)
+  ( Bodied (..)
   ) where
 
 import Data.Bytes.Chunks (Chunks)
@@ -7,7 +7,8 @@ import Data.Bytes.Chunks (Chunks)
 -- | An HTTP request or response with a body.
 data Bodied a = Bodied
   { metadata :: !a
-    -- ^ The request or response.
+  -- ^ The request or response.
   , body :: !Chunks
-    -- ^ The body.
-  } deriving (Show,Eq)
+  -- ^ The body.
+  }
+  deriving (Eq, Show)

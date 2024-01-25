@@ -1,22 +1,25 @@
-{-# language DuplicateRecordFields #-}
+{-# LANGUAGE DuplicateRecordFields #-}
 
 module Http.Types
   ( -- * Request
-    Request(..)
-  , RequestLine(..)
+    Request (..)
+  , RequestLine (..)
+
     -- * Response
-  , Response(..)
-  , StatusLine(..)
+  , Response (..)
+  , StatusLine (..)
+
     -- * Header
   , Headers
-  , Header(..)
-  , LookupException(..)
+  , Header (..)
+  , LookupException (..)
+
     -- * Bodied
-  , Bodied(..)
+  , Bodied (..)
   ) where
 
-import Http.Request (Request(..),RequestLine(..))
-import Http.Response (Response(..),StatusLine(..))
-import Http.Header (Header(..))
-import Http.Headers (Headers,LookupException(..))
-import Http.Bodied (Bodied(..))
+import Http.Bodied (Bodied (..))
+import Http.Header (Header (..))
+import Http.Headers (Headers, LookupException (..))
+import Http.Request (Request (..), RequestLine (..))
+import Http.Response (Response (..), StatusLine (..))
