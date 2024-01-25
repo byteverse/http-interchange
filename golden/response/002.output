@@ -2,9 +2,7 @@ Response
   { statusLine =
       StatusLine { statusCode = 400 , statusReason = "Bad Request" }
   , headers =
-      fromListN
-        2
-        [ Header { name = "Content-Type" , value = "application/json" }
-        , Header { name = "Content-Length" , value = "100" }
-        ]
+      [ Header { name = "Content-Type" , value = "application/json" }
+      , Header { name = "Content-Length" , value = "100" }
+      ]
   }
