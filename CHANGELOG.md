@@ -1,9 +1,10 @@
 # Revision history for http-interchange
 
-## 0.3.?.? -- 2024-??-??
+## 0.3.2.1 -- 2024-02-07
 
 * List test suite file dependencies in `extra-source-files` so that Hackage
   is able to run the test suite.
+* Update package metadata.
 
 ## 0.3.2.0 -- 2024-01-16
 
