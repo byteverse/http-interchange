@@ -1,5 +1,9 @@
 # Revision history for http-interchange
 
+## 0.3.2.2 -- 2024-08-23
+
+* Allow all RFC 7230 tchar in header name
+
 ## 0.3.2.1 -- 2024-02-07
 
 * List test suite file dependencies in `extra-source-files` so that Hackage
