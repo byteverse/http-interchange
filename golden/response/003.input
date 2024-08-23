@@ -1,0 +1,19 @@
+HTTP/1.1 200 OK
+Content-Length: 0
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+Allow: GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, SCRIPT
+Access-Control-Allow-Methods: GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, SCRIPT
+Access-Control-Allow-Headers: Authorization,Content-Type,Content-Encoding,Accept,X-Netflix.application.name,X-Netflix.application.version,X-Netflix.esn,X-Netflix.device.type,X-Netflix.certification.version,X-Netflix.request.uuid,X-Netflix.originating.request.uuid,X-Netflix.user.id,X-Netflix.oauth.consumer.key,X-Netflix.oauth.token,X-Netflix.ichnaea.request.type,X-Netflix.Request.Routing,X-NETFLIX-PREAPP-PARTNER-ID,X-NETFLIX-PREAPP-INTEGRITY-VALUE,X-Netflix.Request.Priority,X-Netflix.Retry.Client.Policy,X-Netflix.Client.Request.Name,X-Netflix.Request.Retry.Policy,X-Netflix.Request.Retry.Policy.Default,X-Netflix.request.client.user.guid,X-Netflix.Request.NonJson.Headers,X-Netflix.esnPrefix,X-Netflix.browserName,X-Netflix.browserVersion,X-Netflix.osName,X-Netflix.osVersion,X-Netflix.uiVersion,X-Netflix.clientType,X-NETFLIX-PERSONALIZATION-ID,X-NETFLIX-DET-TOKEN,X-NETFLIX-DET-PARTNER-PAI,X-NETFLIX-RESPONSE-OVERRIDDEN,X-NETFLIX-DET-DEPRECATION,X-Netflix.context.locales,X-Netflix.context.ui-flavor,X-Netflix.context.ale.token,X-Netflix.context.app-version,X-Netflix.context.schema-variant,X-Netflix.Request.toplevel.uuid,f9hi42t,x-session,X-Netflix.Request.Attempt
+Access-Control-Expose-Headers: X-Netflix.Retry.Server.Policy,X-Netflix.Response.Tag,X-Netflix.Geo.Info,X-Netflix.request.inbound.identity.changed,Via,X-Netflix.Retry.Server.Policy.retryAfterSeconds,X-Netflix.Retry.Server.Policy.maxRetries,X-Ftl-Error,X-Netflix.uiVersion,X-Netflix.Playapi.Backoff
+Via: 1.1 i-08d45052140120818 (us-east-2)
+X-Xss-Protection: 1; mode=block; report=https://www.netflix.com/ichnaea/log/freeform/xssreport
+X-Content-Type-Options: nosniff
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-Originating-URL: http://www.netflix.com/
+Set-Cookie: nfvdid=BQFmAAEBEFU_lDUnKbaHRi5tl0Mhqc5ALJIuWadL1PlbBLQGl0n-1n-GCB41ux6moG0JMBj22dNaLsaXeB3DmLHrc6SUwOP43peCxZ-9EQNtFxz7gqTC0w%3D%3D; Domain=.netflix.com; Path=/; Max-Age=31536000
+Set-Cookie: SecureNetflixId=v%3D3%26mac%3DAQEAEQABABRXxJiCXjMlnNAESuzV2TyKuP3eS3p8YJc.%26dt%3D1724424807026; Domain=.netflix.com; Expires=Sat, 23 Aug 2025 14:53:27 GMT; Path=/; HttpOnly; Secure; SameSite=Strict
+Set-Cookie: NetflixId=v%3D3%26ct%3DBgjHlOvcAxK_AQ-lxAypPWxfZpzrloHvpi11GUHAmWl-qgv5VMtuoq9QRvkhHh1zrdLY_ALqrfLQh6YFvx1vjTj6Bwwaxa3_5dZMTkdMBJ9jBUR2nqz-uANNz8MLx210xS7_tyfEk8bTLNGPLXfUnE-XsqKT-Lt5x6A9VZzCrjsHtWOPObAA8ast0yC-FfMJT-1cxBnBDBd9LQeFysgRrRi3VjA6bb-KXqABXABbuXKS0iY1e8wgqs_hv4cvHBciaFkIuDO1GH4vGAYiDgoMorBJMaCVqFf0KRMy; Domain=.netflix.com; Expires=Sat, 23 Aug 2025 14:53:27 GMT; Path=/; HttpOnly; Secure; SameSite=Lax
+X-Netflix.nfstatus: 1_1
+X-Netflix.proxy.execution-time: 61
+

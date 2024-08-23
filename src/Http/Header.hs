@@ -1,4 +1,5 @@
 {-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE PatternSynonyms #-}
 
 module Http.Header
   ( Header (..)
@@ -15,6 +16,7 @@ import Data.Bytes.Parser (Parser)
 import Data.Bytes.Types (Bytes (Bytes))
 import Data.Primitive (ByteArray (ByteArray), SmallArray, SmallMutableArray)
 import Data.Text (Text)
+import Data.Word (Word8)
 
 import Data.Bytes qualified as Bytes
 import Data.Bytes.Builder qualified as Builder
@@ -74,9 +76,62 @@ parserHeaderStep !ix !n !dst =
           parserHeaderStep (ix + 1) (n - 1) dst
         else Parser.fail ()
 
+pattern Bang :: Word8
+pattern Bang = 0x21
+
+pattern Pound :: Word8
+pattern Pound = 0x23
+
+pattern Dollar :: Word8
+pattern Dollar = 0x24
+
+pattern Percent :: Word8
+pattern Percent = 0x25
+
+pattern Ampersand :: Word8
+pattern Ampersand = 0x26
+
+pattern SingleQuote :: Word8
+pattern SingleQuote = 0x27
+
+pattern Asterisk :: Word8
+pattern Asterisk = 0x2A
+
+pattern Plus :: Word8
+pattern Plus = 0x2B
+
+pattern Hyphen :: Word8
+pattern Hyphen = 0x2D
+
+pattern Period :: Word8
+pattern Period = 0x2E
+
+pattern Caret :: Word8
+pattern Caret = 0x5E
+
+pattern Underscore :: Word8
+pattern Underscore = 0x5F
+
+pattern Backtick :: Word8
+pattern Backtick = 0x60
+
+pattern Pipe :: Word8
+pattern Pipe = 0x7C
+
+pattern Twiddle :: Word8
+pattern Twiddle = 0x7E
+
+pattern HorizontalTab :: Word8
+pattern HorizontalTab = 0x09
+
 {- | Parse a single HTTP header including the trailing CRLF sequence.
 From RFC 7230:
 
+> token          = 1*tchar
+> tchar          = "!" / "#" / "$" / "%" / "&" / "'" / "*"
+>                / "+" / "-" / "." / "^" / "_" / "`" / "|" / "~" 
+>                / DIGIT / ALPHA
+> 
 > header-field   = field-name ":" OWS field-value OWS
 > field-name     = token
 > field-value    = *( field-content / obs-fold )
@@ -85,19 +140,32 @@ From RFC 7230:
 -}
 parser :: Parser () s Header
 parser = do
-  -- Header name may contain: a-z, A-Z, 0-9, underscore, hyphen
+  -- Header name may contain: a-z, A-Z, 0-9, several different symbols
   !name <- Parser.takeWhile $ \c ->
     (c >= 0x41 && c <= 0x5A)
       || (c >= 0x61 && c <= 0x7A)
       || (c >= 0x30 && c <= 0x39)
-      || c == 0x2D
-      || c == 0x5F
+      || c == Bang
+      || c == Pound
+      || c == Dollar
+      || c == Percent
+      || c == Ampersand
+      || c == SingleQuote
+      || c == Asterisk
+      || c == Plus
+      || c == Hyphen
+      || c == Period
+      || c == Caret
+      || c == Underscore
+      || c == Backtick
+      || c == Pipe
+      || c == Twiddle
   Latin.char () ':'
   Latin.skipWhile (\c -> c == ' ' || c == '\t')
-  -- Header name allows vchar, space, and tab.
+  -- Header value allows vchar, space, and tab.
   value0 <- Parser.takeWhile $ \c ->
     (c >= 0x20 && c <= 0x7e)
-      || (c == 0x09)
+      || (c == HorizontalTab)
   Latin.char2 () '\r' '\n'
   -- We only need to trim the end because the leading spaces and tab
   -- were already skipped.
